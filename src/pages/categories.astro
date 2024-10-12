@@ -1,0 +1,19 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { sanityClient } from "sanity:client";
+
+const categories = await sanityClient.fetch(`*[_type == "category"]`);
+console.log(categories);
+---
+
+<Layout>
+  {
+    categories.map((c: { title: string; slug: any }) => {
+      return (
+        <h2>
+          <a href={`/category/${c.slug.current}`}>{c.title}</a>
+        </h2>
+      );
+    })
+  }
+</Layout>

@@ -1,0 +1,57 @@
+---
+import type { SanityDocument } from "@sanity/client";
+import { loadQuery } from "../../sanity/lib/load-query";
+import PortableText from "../../components/PortableText.astro";
+import Layout from "../../layouts/Layout.astro";
+import { sanityClient } from "sanity:client";
+
+export async function getStaticPaths() {
+  const { data: category } = await loadQuery<SanityDocument[]>({
+    query: `*[_type == "category"]`,
+  });
+
+  return category.map(({ slug }) => {
+    return {
+      params: {
+        slug: slug.current,
+      },
+    };
+  });
+}
+
+const { params } = Astro;
+
+const { data: category }: any = await loadQuery<{ title: string; body: any[] }>(
+  {
+    query: `*[_type == "category" && slug.current == $slug][0]`,
+    params,
+  }
+);
+
+const instruments = await sanityClient.fetch(
+  `*[_type == "post" && references(*[_type == "category" && lower(title) == "${category.title}"]._id)]`
+);
+
+console.log(category);
+console.log(instruments);
+console.log(category.title);
+---
+
+<Layout>
+  <h1>
+    This is a category page. The catgory is
+    {category.title}
+  </h1>
+  <PortableText portableText={category.body} />
+
+  <ul>
+    {
+      instruments.map((i: { _id: any; title: string; slug: any }) => (
+        <li>
+          <a href={`/post/${i.slug.current}`}>{i.title}</a>
+          {i.title}
+        </li>
+      ))
+    }
+  </ul>
+</Layout>

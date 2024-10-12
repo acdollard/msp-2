@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import { sanityIntegration } from "@sanity/astro";
 import react from "@astrojs/react";
+import vue from "@astrojs/vue";
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,6 +15,7 @@ export default defineConfig({
       studioBasePath: "/studio", // If you want to access the Studio on a route
     }),
     react(),
+    vue(),
   ],
   output: "server",
 });
