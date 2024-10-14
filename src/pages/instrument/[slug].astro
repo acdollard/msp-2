@@ -1,0 +1,35 @@
+---
+import type { SanityDocument } from "@sanity/client";
+import { loadQuery } from "../../sanity/lib/load-query";
+import PortableText from "../../components/PortableText.astro";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const { data: instruments } = await loadQuery<SanityDocument[]>({
+    query: `*[_type == "instrument"]`,
+  });
+
+  return instruments.map(({ slug }) => {
+    return {
+      params: {
+        slug: slug.current,
+      },
+    };
+  });
+}
+
+const { params } = Astro;
+
+const { data: instrument }: any = await loadQuery<{
+  title: string;
+  body: any[];
+}>({
+  query: `*[_type == "instrument" && slug.current == $slug][0]`,
+  params,
+});
+---
+
+<Layout>
+  <h1 class="text-2xl my-4 flex justify-center">{instrument.title}</h1>
+  <PortableText portableText={instrument.body} />
+</Layout>

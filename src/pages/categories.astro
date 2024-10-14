@@ -7,10 +7,11 @@ console.log(categories);
 ---
 
 <Layout>
+  <h1 class="text-2xl my-4 flex justify-center">Instrument Categories:</h1>
   {
     categories.map((c: { title: string; slug: any }) => {
       return (
-        <h2>
+        <h2 class="">
           <a href={`/category/${c.slug.current}`}>{c.title}</a>
         </h2>
       );
