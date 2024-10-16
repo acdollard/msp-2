@@ -1,5 +1,6 @@
 ---
-import NavBar from "../components/NavBar.astro";
+import TopNav from "../components/TopNav.astro";
+import "../styles/global.css";
 
 export type props = {
   title: string;
@@ -17,8 +18,8 @@ const visualEditingEnabled =
     <meta name="generator" content={Astro.generator} />
     <title>Main Street Percussion</title>
   </head>
-  <body class="bg-slate-100 m-4 md:m-10">
-    <NavBar />
+  <body class="">
+    <TopNav />
     <slot />
   </body>
 </html>
