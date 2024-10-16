@@ -35,40 +35,42 @@ const instruments = await sanityClient.fetch(
 ---
 
 <Layout>
-  <h1 class="text-2xl my-4 flex justify-center">
-    All
-    {category.title}
-  </h1>
-  <PortableText portableText={category.body} />
-
-  <ul>
-  <div class="instrument-list grid grid-cols-3 gap-2 text-sm md:text-base">
-    <div class="font-bold">Name</div>
-    <div class="flex justify-end font-bold">Daily Rate</div>
-    <div class="flex justify-end font-bold text-right">est. Weekly Rate</div>
-      {
-        instruments.map(
-          (i: {
-            _id: any;
-            title: string;
-            slug: any;
-            estimatedWeeklyRate: string;
-            dailyRate: string;
-          }) => (
-            
-            <li class="">
-              <a href={`/instrument/${i.slug.current}`}>{i.title}</a>
-            </li>
-            <div class="flex justify-end items-center text-sm md:text-base">
-              {`$${i.dailyRate}.00`}
-            </div>
-            <div class="flex justify-end items-center text-sm md:text-base">
-              {`$${i.estimatedWeeklyRate}.00`}
-            </div>
-            
+  <div class="flex flex-col items-center justify-center">
+    <h1 class="text-2xl m-4 flex justify-center">
+      All
+      {category.title}
+    </h1>
+    <PortableText portableText={category.body} />
+  
+    <ul>
+    <div class="instrument-list grid grid-cols-3 gap-2 text-sm md:text-base">
+      <div class="font-bold">Name</div>
+      <div class="flex justify-end font-bold">Daily Rate</div>
+      <div class="flex justify-end font-bold text-right">est. Weekly Rate</div>
+        {
+          instruments.map(
+            (i: {
+              _id: any;
+              title: string;
+              slug: any;
+              estimatedWeeklyRate: string;
+              dailyRate: string;
+            }) => (
+              
+              <li class="">
+                <a href={`/instrument/${i.slug.current}`}>{i.title}</a>
+              </li>
+              <div class="flex justify-end items-center text-sm md:text-base">
+                {`$${i.dailyRate}.00`}
+              </div>
+              <div class="flex justify-end items-center text-sm md:text-base">
+                {`$${i.estimatedWeeklyRate}.00`}
+              </div>
+              
+            )
           )
-        )
-      }
+        }
+      </div>
+    </ul>
   </div>
-</ul>
 </Layout>

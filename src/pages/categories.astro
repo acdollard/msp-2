@@ -1,20 +1,127 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { sanityClient } from "sanity:client";
+import { Image } from "astro:assets";
+import SanityPicture, { setSanityPictureDefaults } from "astro-sanity-picture";
+import Mallets from "../assets/mallets.jpg";
+import { defineConfig } from "sanity";
+import imageUrlBuilder from "@sanity/image-url";
+
+const builder = imageUrlBuilder(sanityClient);
 
 const categories = await sanityClient.fetch(`*[_type == "category"]`);
 console.log(categories);
 ---
 
 <Layout>
-  <h1 class="text-2xl my-4 flex justify-center">Instrument Categories:</h1>
-  {
-    categories.map((c: { title: string; slug: any }) => {
-      return (
-        <h2 class="">
-          <a href={`/category/${c.slug.current}`}>{c.title}</a>
-        </h2>
-      );
-    })
-  }
+  <div class="hero-1">
+    <div class="cs-container">
+      <div class="flex flex-col justify-start items-center gap-4 bg-red">
+        <div class="cs-content">
+          {
+            categories.map(
+              (c: { title: string; slug: any; mainImage: any }) => {
+                return (
+                  <a href={`/category/${c.slug.current}`}>
+                    <div class="card flex flex-row gap-4 justify-center bg-white rounded-md">
+                      <SanityPicture
+                        src={c.mainImage}
+                        sizes="100px, 100px"
+                        imageUrlBuilder={builder}
+                        class="rounded-full"
+                      />
+
+                      <div class="text bg-white flex flex-col justify-center rounded-md">
+                        <h2 class="text-xl">{c.title}</h2>
+                      </div>
+                    </div>
+                  </a>
+                );
+              }
+            )
+          }
+        </div>
+      </div>
+
+      <div class="cs-background">
+        <Image
+          loading="lazy"
+          decoding="async"
+          src={Mallets}
+          alt="field"
+          width="1920"
+          height="1600"
+          aria-hidden="true"
+        />
+      </div>
+    </div>
+  </div>
 </Layout>
+
+<style>
+  .hero-1 {
+    text-align: center;
+    /* 200px - 300px - leaving extra space for the navigation */
+    padding: clamp(12.5rem, 25.95vw, 18.75em) 1rem;
+    /* prevents the topper line from causing an overflow */
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .cs-background {
+    height: 100%;
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -2;
+  }
+
+  .cs-background:before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    display: block;
+    background-color: #111;
+    opacity: 0.48;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .cs-background img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .cs-container {
+    width: 100%;
+    max-width: 80rem;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+  }
+  .cs-content {
+    width: 100%;
+    /* max-width: 39.375rem; */
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 15px;
+  }
+
+  .card {
+    width: 420px;
+    height: 200px;
+  }
+</style>
