@@ -2,57 +2,46 @@
 import Layout from "../layouts/Layout.astro";
 import { sanityClient } from "sanity:client";
 import { Image } from "astro:assets";
-import SanityPicture, { setSanityPictureDefaults } from "astro-sanity-picture";
 import Mallets from "../assets/mallets.jpg";
-import { defineConfig } from "sanity";
 import imageUrlBuilder from "@sanity/image-url";
 
 const builder = imageUrlBuilder(sanityClient);
 
-const categories = await sanityClient.fetch(`*[_type == "category"]`);
+function urlFor(source: any) {
+  return builder.image(source);
+}
+const categories = await sanityClient.fetch(`*[_type == "category"]{
+  title, 
+  slug,
+  "imageUrl": mainImage.asset->url
+}`);
 console.log(categories);
 ---
 
 <Layout>
   <div class="hero-1">
-    <div class="cs-container">
-      <div class="flex flex-col justify-start items-center gap-4 bg-red">
-        <div class="cs-content">
-          {
-            categories.map(
-              (c: { title: string; slug: any; mainImage: any }) => {
-                return (
-                  <a href={`/category/${c.slug.current}`}>
-                    <div class="card flex flex-row gap-4 justify-center bg-white rounded-md">
-                      <SanityPicture
-                        src={c.mainImage}
-                        sizes="100px, 100px"
-                        imageUrlBuilder={builder}
-                        class="rounded-full"
-                      />
+    <div class="flex flex-col items-start gap-4">
+      <h1 class="text-3xl text-slate-100">Categories</h1>
+      <div class="cs-content">
+        {
+          categories.map((c: { title: string; slug: any; imageUrl: any }) => {
+            return (
+              <a href={`/category/${c.slug.current}`}>
+                <div class="card flex flex-row gap-4 justify-between bg-white rounded-md">
+                  <img
+                    src={urlFor(c.imageUrl).height(150).width(150).url()}
+                    alt="image"
+                    class="rounded-full m-2"
+                  />
 
-                      <div class="text bg-white flex flex-col justify-center rounded-md">
-                        <h2 class="text-xl">{c.title}</h2>
-                      </div>
-                    </div>
-                  </a>
-                );
-              }
-            )
-          }
-        </div>
-      </div>
-
-      <div class="cs-background">
-        <Image
-          loading="lazy"
-          decoding="async"
-          src={Mallets}
-          alt="field"
-          width="1920"
-          height="1600"
-          aria-hidden="true"
-        />
+                  <div class="text bg-white flex flex-col justify-start rounded-md mx-4 mt-4">
+                    <h2 class="text-xl">{c.title}</h2>
+                  </div>
+                </div>
+              </a>
+            );
+          })
+        }
       </div>
     </div>
   </div>
@@ -60,16 +49,21 @@ console.log(categories);
 
 <style>
   .hero-1 {
-    text-align: center;
     /* 200px - 300px - leaving extra space for the navigation */
-    padding: clamp(12.5rem, 25.95vw, 18.75em) 1rem;
+    /* padding: clamp(12.5rem, 25.95vw, 18.75em) 1rem; */
+    padding-top: 2rem;
     /* prevents the topper line from causing an overflow */
     position: relative;
-    overflow: hidden;
     z-index: 1;
+    display: flex;
+    justify-content: center;
+    background-image: url("../assets/mallets.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 750px;
   }
 
-  .cs-background {
+  /* .cs-background {
     height: 100%;
     width: 100%;
     display: block;
@@ -77,8 +71,8 @@ console.log(categories);
     top: 0px;
     left: 0px;
     z-index: -2;
-  }
-
+  } */
+  /* 
   .cs-background:before {
     content: "";
     height: 100%;
@@ -91,7 +85,7 @@ console.log(categories);
     left: 0;
     z-index: 1;
     pointer-events: none;
-  }
+  } */
 
   .cs-background img {
     position: absolute;
@@ -109,7 +103,7 @@ console.log(categories);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     gap: 3rem;
   }
   .cs-content {
@@ -119,9 +113,24 @@ console.log(categories);
     grid-template-columns: auto auto;
     gap: 15px;
   }
+  @media only screen and (max-width: 750px) {
+    .cs-content {
+      width: 100%;
+      /* max-width: 39.375rem; */
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 15px;
+      grid-template-columns: auto;
+    }
+  }
 
   .card {
-    width: 420px;
-    height: 200px;
+    width: 380px;
+    height: 180px;
+  }
+
+  .card:hover {
+    transform: scale(1.03);
+    border: 1px solid var(--nscDarkGrey);
   }
 </style>
