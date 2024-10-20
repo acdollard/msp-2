@@ -15,11 +15,10 @@ const categories = await sanityClient.fetch(`*[_type == "category"]{
   slug,
   "imageUrl": mainImage.asset->url
 }`);
-console.log(categories);
 ---
 
 <Layout>
-  <div class="hero-1">
+  <section class="hero-1">
     <div class="flex flex-col items-start gap-4">
       <h1 class="text-3xl text-slate-100">Categories</h1>
       <div class="cs-content">
@@ -44,7 +43,7 @@ console.log(categories);
         }
       </div>
     </div>
-  </div>
+  </section>
 </Layout>
 
 <style>
@@ -62,30 +61,6 @@ console.log(categories);
     background-repeat: no-repeat;
     height: 750px;
   }
-
-  /* .cs-background {
-    height: 100%;
-    width: 100%;
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: -2;
-  } */
-  /* 
-  .cs-background:before {
-    content: "";
-    height: 100%;
-    width: 100%;
-    display: block;
-    background-color: #111;
-    opacity: 0.48;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    pointer-events: none;
-  } */
 
   .cs-background img {
     position: absolute;
