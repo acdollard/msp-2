@@ -1,22 +1,30 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import SnareDrum from "../assets/snare-drum.jpg";
+import Mallets from "../assets/mallets.jpg";
 import { Image } from "astro:assets";
 
 import "../styles/global.css";
+import "../styles/tiles.css";
 ---
 
 <Layout>
   <section class="section-1">
-    <div class="text-box w-3/ rounded:sm p-4">
-      <h1 class="border-b-2 border-b-slate-100 inline-block">
-        Main Street Percussion
-      </h1>
+    <div class="text-box w-4/5 rounded:sm p-6">
+      <h1 class="border-b-2 pb-4 border-b-slate-100">Main Street Percussion</h1>
       <div class="pt-4">
-        <p>THE PREMIER PERCUSSION RENTAL SERVICE IN THE SOUTHEAST</p>
+        <p class="pt-4">
+          THE PREMIER PERCUSSION RENTAL SERVICE IN THE SOUTHEAST
+        </p>
         <p>BASED IN NASHVILLE, TN</p>
         <p>EST. 2022</p>
       </div>
+    </div>
+  </section>
+  <section id="tiles" class="tiles section-2">
+    <div class="section-2-image"></div>
+    <div class="section-2-text flex justify-center items-center">
+      <h1>Daily Rentals</h1>
     </div>
   </section>
 </Layout>
@@ -34,7 +42,7 @@ import "../styles/global.css";
       color: #d9d9d9;
       /* background-color: #218c5c; */
       background:
-        linear-gradient(rgba(33, 140, 92, 0.75), rgba(33, 140, 92, 0.75)),
+        linear-gradient(rgba(20, 89, 58, 0.75), rgba(23, 101, 66, 0.75)),
         url("../assets/snare-drum.jpg") center/cover no-repeat;
       /* background-size: cover;
       background-repeat: no-repeat;
@@ -47,6 +55,26 @@ import "../styles/global.css";
       align-items: center;
     }
 
+    .section-2 {
+      height: 500px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section-2-image {
+      content: "";
+      height: 300px;
+      width: 100%;
+      background:
+        linear-gradient(rgba(20, 100, 220, 0.75), rgba(20, 100, 220, 0.75)),
+        url("../assets/mallets.jpg") center/cover no-repeat;
+    }
+
+    .section-2-text {
+      width: 100%;
+    }
+
     h1 {
       font-size: 3rem;
       font-weight: 700;
@@ -56,6 +84,34 @@ import "../styles/global.css";
       font-size: 1rem;
       letter-spacing: 0.05em;
       font-weight: 600;
+    }
+
+    .tiles {
+      height: 600px;
+    }
+
+    .image {
+      height: 500px;
+      width: auto;
+    }
+  }
+
+  @media only screen and (min-width: 37rem) {
+    .section-2 {
+      flex-direction: row;
+    }
+
+    .section-2-image {
+      content: "";
+      height: auto;
+      width: 100%;
+      background:
+        linear-gradient(rgba(20, 100, 220, 0.75), rgba(20, 100, 220, 0.75)),
+        url("../assets/mallets.jpg") center/cover no-repeat;
+    }
+
+    .section-2-text {
+      width: 100%;
     }
   }
 </style>
