@@ -23,9 +23,23 @@ import "../styles/tiles.css";
   </section>
   <section id="tiles" class="tiles section-2">
     <div class="section-2-image"></div>
-    <div class="section-2-text flex justify-center items-center">
-      <h1>Daily Rentals</h1>
+    <div
+      class="section-2-text w-full md:h-full sm:h-1/2 flex justify-center items-center"
+    >
+      <h2 class="inline-block w-4/5 border-b-2 border-b-zinc-800 text-right">
+        Daily Rentals
+      </h2>
     </div>
+  </section>
+  <section id="tiles" class="tiles section-2">
+    <div
+      class="section-2-text w-full md:h-full sm:h-1/2 flex justify-center items-center"
+    >
+      <h2 class="inline-block w-4/5 border-b-2 border-b-zinc-800 text-left">
+        Weekly Rentals
+      </h2>
+    </div>
+    <div class="section-3-image"></div>
   </section>
 </Layout>
 
@@ -56,7 +70,7 @@ import "../styles/tiles.css";
     }
 
     .section-2 {
-      height: 500px;
+      height: 400px;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -71,6 +85,15 @@ import "../styles/tiles.css";
         url("../assets/mallets.jpg") center/cover no-repeat;
     }
 
+    .section-3-image {
+      content: "";
+      width: 100%;
+      height: 300px;
+      background:
+        linear-gradient(rgba(163, 20, 220, 0.75), rgba(163, 20, 220, 0.75)),
+        url("../assets/ethnic-drum.jpg") center/cover no-repeat;
+    }
+
     .section-2-text {
       width: 100%;
     }
@@ -80,14 +103,15 @@ import "../styles/tiles.css";
       font-weight: 700;
     }
 
+    h2 {
+      margin: 2rem;
+      font-size: 2.53rem;
+    }
+
     p {
       font-size: 1rem;
       letter-spacing: 0.05em;
       font-weight: 600;
-    }
-
-    .tiles {
-      height: 600px;
     }
 
     .image {
@@ -112,6 +136,15 @@ import "../styles/tiles.css";
 
     .section-2-text {
       width: 100%;
+    }
+
+    .section-3-image {
+      content: "";
+      width: 100%;
+      height: auto;
+      background:
+        linear-gradient(rgba(163, 20, 220, 0.75), rgba(163, 20, 220, 0.75)),
+        url("../assets/ethnic-drum.jpg") center/cover no-repeat;
     }
   }
 </style>
