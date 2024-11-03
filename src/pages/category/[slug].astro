@@ -34,47 +34,45 @@ const instruments = await sanityClient.fetch(
 ---
 
 <Layout>
-  <div class="flex flex-col items-center justify-center">
-    <h1 class="text-2xl m-4 flex justify-center">
-      All
-      {category.title}
-    </h1>
-    <PortableText portableText={category.body} />
+  <h1 class="text-2xl m-4 flex justify-center">
+    All
+    {category.title}
+  </h1>
+  <PortableText portableText={category.body} />
 
-    <div class="instrument-list w-5/6 grid grid-rows-1 text-sm md:text-base">
-      <div class="row flex flex-row justify-between px-6 mb-4">
-        <div class="font-bold">Name</div>
-        <div class="prices flex flex-row">
-          <div class="flex justify-end font-bold min-w-44">Daily Rate</div>
-          <div class="flex justify-end font-bold min-w-44 text-right">
-            est. Weekly Rate
-          </div>
+  <div class="instrument-list grid grid-rows-1 text-sm md:text-base">
+    <div class="row flex flex-row justify-between mb-4">
+      <div class="font-bold">Name</div>
+      <div class="prices flex flex-row">
+        <div class="flex justify-end font-bold min-w-44">Daily Rate</div>
+        <div class="flex justify-end font-bold min-w-44 text-right">
+          est. Weekly Rate
         </div>
       </div>
-      {
-        instruments.map(
-          (i: {
-            _id: any;
-            title: string;
-            slug: any;
-            estimatedWeeklyRate: string;
-            dailyRate: string;
-          }) => (
-            <div class="row flex flex-row justify-between items-center py-6 px-6 h-12 rounded:md hover:bg-gray-300">
-              <div class="name">
-                <a href={`/instrument/${i.slug.current}`}>{i.title}</a>
-              </div>
-              <div class="prices flex flex-row ">
-                <div class="min-w-44 flex justify-end text-sm md:text-base">{`$${i.dailyRate}.00`}</div>
+    </div>
+    {
+      instruments.map(
+        (i: {
+          _id: any;
+          title: string;
+          slug: any;
+          estimatedWeeklyRate: string;
+          dailyRate: string;
+        }) => (
+          <div class="row flex flex-row justify-between items-center h-12 rounded:md hover:bg-gray-300">
+            <div class="name">
+              <a href={`/instrument/${i.slug.current}`}>{i.title}</a>
+            </div>
+            <div class="prices flex flex-row ">
+              <div class="min-w-44 flex justify-end text-sm md:text-base">{`$${i.dailyRate}.00`}</div>
 
-                <div class="min-w-44 flex justify-end text-sm md:text-base">
-                  {`$${i.estimatedWeeklyRate}.00`}
-                </div>
+              <div class="min-w-44 flex justify-end text-sm md:text-base">
+                {`$${i.estimatedWeeklyRate}.00`}
               </div>
             </div>
-          )
+          </div>
         )
-      }
-    </div>
+      )
+    }
   </div>
 </Layout>

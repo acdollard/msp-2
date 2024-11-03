@@ -3,44 +3,80 @@ import Layout from "../layouts/Layout.astro";
 import SnareDrum from "../assets/snare-drum.jpg";
 import Mallets from "../assets/mallets.jpg";
 import { Image } from "astro:assets";
-
-import "../styles/global.css";
-import "../styles/tiles.css";
 ---
 
 <Layout>
   <section class="section-1">
     <div class="text-box w-4/5 rounded:sm p-6">
-      <h1 class="border-b-2 pb-4 border-b-slate-100">Main Street Percussion</h1>
+      <h1 class="border-b-2 pb-4 border-b-slate-100 header-text">
+        Main Street Percussion
+      </h1>
       <div class="pt-4">
-        <p class="pt-4">
-          THE PREMIER PERCUSSION RENTAL SERVICE IN THE SOUTHEAST
-        </p>
-        <p>BASED IN NASHVILLE, TN</p>
-        <p>EST. 2022</p>
+        <p class="pt-4">YOUR PERCUSSION RENTAL PEOPLE</p>
       </div>
     </div>
   </section>
-  <section id="tiles" class="tiles section-2">
-    <div class="section-2-image"></div>
-    <div
-      class="section-2-text w-full md:h-full sm:h-1/2 flex justify-center items-center"
-    >
-      <h2 class="inline-block w-4/5 border-b-2 border-b-zinc-800 text-right">
-        Daily Rentals
-      </h2>
+  <section class="section-2">
+    <h2>Browse Categories</h2>
+    <div class="container">
+      <div
+        class="panel active"
+        style="
+            background-image: url('https://images.unsplash.com/photo-1707560693052-2c9d73bd1f1d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+          "
+      >
+        <h3 class="text-slate-800">Concert Drums</h3>
+      </div>
+      <div
+        class="panel"
+        style="
+            background-image: url('https://images.unsplash.com/photo-1710651648270-c0c900f49f30?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+          "
+      >
+        <h3>Tuned Keyboards</h3>
+      </div>
+      <div
+        class="panel"
+        style="
+            background-image: url('https://images.unsplash.com/photo-1627769831079-835899bdd1c0?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+          "
+      >
+        <h3>Accessories & Special Effects</h3>
+      </div>
+      <div
+        class="panel"
+        style="
+            background-image: url('https://images.unsplash.com/photo-1530917203633-106d4a1a0967?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+          "
+      >
+        <h3>Ethnic Percussion</h3>
+      </div>
+      <!-- <div
+        class="panel"
+        style="
+            background-image: url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80');
+          "
+      >
+        <h3>Mountains - Clouds</h3>
+      </div> -->
     </div>
   </section>
-  <section id="tiles" class="tiles section-2">
-    <div
-      class="section-2-text w-full md:h-full sm:h-1/2 flex justify-center items-center"
-    >
-      <h2 class="inline-block w-4/5 border-b-2 border-b-zinc-800 text-left">
-        Weekly Rentals
-      </h2>
-    </div>
-    <div class="section-3-image"></div>
-  </section>
+  <script>
+    const panels = document.querySelectorAll(".panel");
+
+    panels.forEach((panel) => {
+      panel.addEventListener("click", () => {
+        removeActiveClasses();
+        panel.classList.add("active");
+      });
+    });
+
+    function removeActiveClasses() {
+      panels.forEach((panel) => {
+        panel.classList.remove("active");
+      });
+    }
+  </script>
 </Layout>
 
 <style scoped>
@@ -51,8 +87,8 @@ import "../styles/tiles.css";
   /* Mobile - 360px */
   @media only screen and (min-width: 0rem) {
     .section-1 {
-      height: 600px;
-      width: 100%;
+      height: 80vh;
+
       color: #d9d9d9;
       /* background-color: #218c5c; */
       background:
@@ -70,32 +106,49 @@ import "../styles/tiles.css";
     }
 
     .section-2 {
-      height: 400px;
-      width: 100%;
+      margin: 0;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
-    .section-2-image {
-      content: "";
-      height: 300px;
-      width: 100%;
-      background:
-        linear-gradient(rgba(20, 100, 220, 0.75), rgba(20, 100, 220, 0.75)),
-        url("../assets/mallets.jpg") center/cover no-repeat;
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
     }
 
-    .section-3-image {
-      content: "";
-      width: 100%;
-      height: 300px;
-      background:
-        linear-gradient(rgba(163, 20, 220, 0.75), rgba(163, 20, 220, 0.75)),
-        url("../assets/ethnic-drum.jpg") center/cover no-repeat;
+    .panel {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 30vh;
+      width: 90vw;
+      border-radius: 50px;
+      color: #d9d9d9;
+      margin: 10px;
+      position: relative;
+      transition: flex 0.3s ease-in;
+      flex: 0.5;
     }
 
-    .section-2-text {
-      width: 100%;
+    .panel.active {
+      flex: 5;
+    }
+
+    .panel h3 {
+      font-size: 24px;
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      opacity: 0;
+    }
+
+    .panel.active h3 {
+      opacity: 1;
+      transition: opacity 0.3s ease-in 0.3s;
     }
 
     h1 {
@@ -109,42 +162,23 @@ import "../styles/tiles.css";
     }
 
     p {
-      font-size: 1rem;
+      font-size: 1.5rem;
       letter-spacing: 0.05em;
-      font-weight: 600;
-    }
-
-    .image {
-      height: 500px;
-      width: auto;
+      font-weight: 400;
     }
   }
 
   @media only screen and (min-width: 37rem) {
     .section-2 {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 60vh;
+    }
+    .container {
       flex-direction: row;
-    }
-
-    .section-2-image {
-      content: "";
-      height: auto;
-      width: 100%;
-      background:
-        linear-gradient(rgba(20, 100, 220, 0.75), rgba(20, 100, 220, 0.75)),
-        url("../assets/mallets.jpg") center/cover no-repeat;
-    }
-
-    .section-2-text {
-      width: 100%;
-    }
-
-    .section-3-image {
-      content: "";
-      width: 100%;
-      height: auto;
-      background:
-        linear-gradient(rgba(163, 20, 220, 0.75), rgba(163, 20, 220, 0.75)),
-        url("../assets/ethnic-drum.jpg") center/cover no-repeat;
     }
   }
 </style>

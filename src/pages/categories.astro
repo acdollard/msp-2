@@ -1,8 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { sanityClient } from "sanity:client";
-import { Image } from "astro:assets";
-import Mallets from "../assets/mallets.jpg";
 import imageUrlBuilder from "@sanity/image-url";
 
 const builder = imageUrlBuilder(sanityClient);
@@ -59,7 +57,7 @@ const categories = await sanityClient.fetch(`*[_type == "category"]{
     background-image: url("../assets/mallets.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-    height: 750px;
+    height: 100vh;
   }
 
   .cs-background img {
