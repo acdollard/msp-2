@@ -1,11 +1,61 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ContactForm from "../components/ContactForm.astro";
+import Footer from "../components/Footer.astro";
 ---
 
 <Layout>
-  <div>
-    <h1 class="text-2xl my-4 flex justify-center">Contact us</h1>
-  </div>
+  <section>
+    <div class="panel">
+      <h1 class="text-2xl my-4 flex justify-center">Contact us</h1>
+      <address>
+        <ul>
+          <li>Phone: 615-222-2222</li>
+          <li>Email: email@mainstreetpercission.com</li>
+        </ul>
+      </address>
+    </div>
+    <div class="panel">
+      <ContactForm />
+    </div>
+  </section>
+  <Footer />
 </Layout>
 
-<style></style>
+<style>
+  @media only screen and (min-width: 0rem) {
+    section {
+      height: 100vh;
+      background-color: rgba(20, 89, 58, 0.75);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      padding-top: 4rem;
+      color: #d9d9d9;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+    }
+
+    .panel {
+      width: 90%;
+    }
+
+    li {
+      font-size: 1.5rem;
+      padding: 0.5rem 2.2rem;
+    }
+  }
+
+  @media only screen and (min-width: 37rem) {
+    section {
+      display: flex;
+    }
+
+    .panel {
+      width: 70%;
+    }
+  }
+</style>
