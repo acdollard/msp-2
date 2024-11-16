@@ -1,11 +1,24 @@
 ---
+import { sanityClient } from "sanity:client";
+import imageUrlBuilder from "@sanity/image-url";
 
+export type props = {
+  title: string;
+};
+const categories = await sanityClient.fetch(`*[_type == "category"]{
+        _id,
+        title,
+        slug,
+        "instruments": *[_type == "instrument" && references(^._id)]{
+          _id,
+          title,
+          slug,
+        }
+      }`);
 ---
 
 <section class="nav-section">
-  <nav
-    class="relative px-6 py-8 flex justify-between items-center bg-white mx-auto"
-  >
+  <nav class="relative mx-8 flex justify-between items-center bg-white">
     <a class="text-2xl font-light leading-none" href="/">
       Main Street Percussion
     </a>
@@ -25,14 +38,27 @@
       <li>
         <a class="text-lg text-gray-800 hover:text-gray-500" href="/">Home</a>
       </li>
-      <li>
-        <a class="text-lg text-gray-800 hover:text-gray-500" href="/categories"
-          >Categories</a
+      <li class="nav-item dropdown">
+        <a
+          class="text-lg text-gray-800 hover:text-gray-500 dropdown-toggle"
+          href="/categories">Categories</a
         >
+        <ul class="dropdown-menu">
+          {
+            categories.map((c: { title: string; slug: any; imageUrl: any }) => {
+              return (
+                <li class="hover:text-gray-500">
+                  <a href={`/category/${c.slug.current}`}>{c.title}</a>
+                </li>
+              );
+            })
+          }
+        </ul>
       </li>
       <li>
-        <a class="text-lg text-gray-800 hover:text-gray-500" href="/contact"
-          >Contact</a
+        <a
+          class="nav-item text-lg text-gray-800 hover:text-gray-500"
+          href="/contact">Contact</a
         >
       </li>
     </ul>
@@ -86,17 +112,6 @@
           </li>
         </ul>
       </div>
-      <!-- <div class="mt-auto">
-        <div class="pt-6">
-          <a
-            class="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-green-600 hover:bg-green-700 rounded-l-xl rounded-t-xl"
-            href="#">Learn More</a
-          >
-        </div>
-        <p class="my-4 text-xs text-center text-gray-400">
-          <span>© 2020 All rights reserved.</span>
-        </p>
-      </div> -->
     </nav>
   </div>
 </section>
@@ -118,3 +133,34 @@
     closeBtn?.addEventListener("click", toggleMenu);
   });
 </script>
+
+<style>
+  .nav-item {
+    height: 6rem;
+    position: relative;
+  }
+
+  .dropdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+  }
+
+  .dropdown-menu > li a {
+    display: block;
+    background-color: white;
+    padding: 0.5rem 1rem;
+    min-width: 16rem;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: inline-block;
+  }
+</style>
