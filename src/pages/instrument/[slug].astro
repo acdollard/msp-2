@@ -3,6 +3,7 @@ import type { SanityDocument } from "@sanity/client";
 import { loadQuery } from "../../sanity/lib/load-query";
 import PortableText from "../../components/PortableText.astro";
 import Layout from "../../layouts/Layout.astro";
+import Footer from "../../components/Footer.astro";
 
 export async function getStaticPaths() {
   const { data: instruments } = await loadQuery<SanityDocument[]>({
@@ -33,17 +34,15 @@ console.log(instrument);
 
 <Layout>
   <div class="page-content flex flex-col justify-center items-center">
-    <div
-      class="instrument-card w-3/5 flex flex-col justify-center items-center"
-    >
+    <div class="instrument-card flex flex-col justify-center items-center">
       <h1
-        class="text-3xl w-full font-bold my-4 px-12 flex justify-start items-start"
+        class="text-3xl font-bold my-4 flex justify-start items-start text-slate-100"
       >
         {instrument.title}
       </h1>
       <PortableText portableText={instrument.body} />
-      <div class="card-text flex flex-col items-start px-12 w-full">
-        <div class="flex flex-row">
+      <div class="card-text flex flex-col items-start text-slate-100">
+        <div class="flex flex-row justify-start">
           <p class="font-bold">Daily Rate: &nbsp;</p>
           <p>${instrument.dailyRate}.00</p>
         </div>
@@ -56,8 +55,10 @@ console.log(instrument);
     </div>
     <section class="contact-section">
       <div class="contact-intro">
-        <h2 class="contact-title">Inquire About This Instrument</h2>
-        <p class="contact-description">
+        <h2 class="contact-title text-slate-100">
+          Inquire About This Instrument
+        </h2>
+        <p class="contact-description text-slate-100">
           Fill out the form below and we'll get back to you as soon as possible.
         </p>
       </div>
@@ -126,8 +127,13 @@ console.log(instrument);
     </section>
   </div>
 </Layout>
+<Footer />
 
 <style scoped>
+  .page-content {
+    background-color: rgba(20, 89, 58, 0.75);
+  }
+
   .contact-section {
     width: 100%;
     max-width: 40rem;
@@ -144,10 +150,6 @@ console.log(instrument);
     font-size: 1.875rem;
     line-height: 2.25rem;
     font-weight: 700;
-  }
-
-  .contact-description {
-    color: rgb(107 114 128);
   }
 
   .form-group-container {

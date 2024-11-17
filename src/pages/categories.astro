@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { sanityClient } from "sanity:client";
 import imageUrlBuilder from "@sanity/image-url";
+import Footer from "../components/Footer.astro";
 
 const builder = imageUrlBuilder(sanityClient);
 
@@ -17,7 +18,7 @@ const categories = await sanityClient.fetch(`*[_type == "category"]{
 
 <Layout>
   <section class="hero-1">
-    <div class="flex flex-col items-start gap-4">
+    <div class="flex flex-col items-start gap-4 my-8">
       <h1 class="text-3xl text-slate-100">Categories</h1>
       <div class="cs-content">
         {
@@ -42,31 +43,15 @@ const categories = await sanityClient.fetch(`*[_type == "category"]{
       </div>
     </div>
   </section>
+  <Footer />
 </Layout>
 
 <style>
   .hero-1 {
-    /* 200px - 300px - leaving extra space for the navigation */
-    /* padding: clamp(12.5rem, 25.95vw, 18.75em) 1rem; */
-    padding-top: 2rem;
-    /* prevents the topper line from causing an overflow */
-    position: relative;
-    z-index: 1;
     display: flex;
     justify-content: center;
     background-color: rgba(20, 89, 58, 0.75);
-    background-size: cover;
-    background-repeat: no-repeat;
     height: 100vh;
-  }
-
-  .cs-background img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
   }
 
   .cs-container {
