@@ -96,7 +96,7 @@ import Footer from "../components/Footer.astro";
   <script>
     const panels = document.querySelectorAll(".panel");
 
-    panels.forEach((panel, idx) => {
+    panels.forEach((panel) => {
       panel.addEventListener("click", () => {
         removeActiveClasses();
         panel.classList.add("active");
@@ -104,7 +104,7 @@ import Footer from "../components/Footer.astro";
     });
 
     function removeActiveClasses() {
-      panels.forEach((panel, idx) => {
+      panels.forEach((panel) => {
         panel.classList.remove("active");
       });
     }
