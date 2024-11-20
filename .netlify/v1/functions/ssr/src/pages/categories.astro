@@ -1,0 +1,94 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { sanityClient } from "sanity:client";
+import imageUrlBuilder from "@sanity/image-url";
+import Footer from "../components/Footer.astro";
+
+const builder = imageUrlBuilder(sanityClient);
+
+function urlFor(source: any) {
+  return builder.image(source);
+}
+const categories = await sanityClient.fetch(`*[_type == "category"]{
+  title, 
+  slug,
+  "imageUrl": mainImage.asset->url
+}`);
+---
+
+<Layout>
+  <section class="hero-1">
+    <div class="flex flex-col items-start gap-4 my-8">
+      <h1 class="text-3xl text-slate-100">Categories</h1>
+      <div class="cs-content">
+        {
+          categories.map((c: { title: string; slug: any; imageUrl: any }) => {
+            return (
+              <a href={`/category/${c.slug.current}`}>
+                <div class="card flex flex-row gap-4 justify-between bg-white rounded-md">
+                  <img
+                    src={urlFor(c.imageUrl).height(150).width(150).url()}
+                    alt="image"
+                    class="rounded-full m-2"
+                  />
+
+                  <div class="text bg-white flex flex-col justify-start rounded-md mx-4 mt-4">
+                    <h2 class="text-xl">{c.title}</h2>
+                  </div>
+                </div>
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+  <Footer />
+</Layout>
+
+<style>
+  .hero-1 {
+    display: flex;
+    justify-content: center;
+    background-color: rgba(20, 89, 58, 0.75);
+    height: 100vh;
+  }
+
+  .cs-container {
+    width: 100%;
+    max-width: 80rem;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
+    gap: 3rem;
+  }
+  .cs-content {
+    width: 100%;
+    /* max-width: 39.375rem; */
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 15px;
+  }
+  @media only screen and (max-width: 750px) {
+    .cs-content {
+      width: 100%;
+      /* max-width: 39.375rem; */
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 15px;
+      grid-template-columns: auto;
+    }
+  }
+
+  .card {
+    width: 380px;
+    height: 180px;
+  }
+
+  .card:hover {
+    transform: scale(1.03);
+    border: 1px solid var(--nscDarkGrey);
+  }
+</style>

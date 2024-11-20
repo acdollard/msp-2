@@ -1,0 +1,98 @@
+---
+import type { SanityDocument } from "@sanity/client";
+import { loadQuery } from "../../sanity/lib/load-query";
+import PortableText from "../../components/PortableText.astro";
+import Layout from "../../layouts/Layout.astro";
+import { sanityClient } from "sanity:client";
+
+export async function getStaticPaths() {
+  const { data: category } = await loadQuery<SanityDocument[]>({
+    query: `*[_type == "category"]`,
+  });
+
+  return category.map(({ slug }) => {
+    return {
+      params: {
+        slug: slug.current,
+      },
+    };
+  });
+}
+
+const { params } = Astro;
+
+const { data: category }: any = await loadQuery<{ title: string; body: any[] }>(
+  {
+    query: `*[_type == "category" && slug.current == $slug][0]`,
+    params,
+  }
+);
+
+const instruments = await sanityClient.fetch(
+  `*[_type == "instrument" && references(*[_type == "category" && lower(title) == "${category.title}"]._id)]`
+);
+---
+
+<Layout>
+  <div class="containerr">
+    <h1 class="text-2xl flex justify-center pt-6">
+      All
+      {category.title}
+    </h1>
+    <PortableText portableText={category.body} />
+
+    <div class="instrument-list grid grid-rows-1 text-sm md:text-base">
+      <div class="row flex flex-row justify-between mb-4">
+        <p class="font-bold mx-4">Name</p>
+        <div class="prices flex flex-row">
+          <p class="flex justify-end font-bold min-w-44">Daily Rate</p>
+          <p class="flex justify-end font-bold min-w-44 text-right mx-4">
+            est. Weekly Rate
+          </p>
+        </div>
+      </div>
+      {
+        instruments.map(
+          (i: {
+            _id: any;
+            title: string;
+            slug: any;
+            estimatedWeeklyRate: string;
+            dailyRate: string;
+          }) => (
+            <div class="row flex flex-row justify-between items-center h-12 rounded:md hover:bg-green-500">
+              <a href={`/instrument/${i.slug.current}`} class="px-4">
+                {i.title}
+              </a>
+
+              <div class="prices flex flex-row ">
+                <p class="min-w-44 flex justify-end text-sm md:text-base">{`$${i.dailyRate}.00`}</p>
+
+                <p class="min-w-44 flex justify-end text-sm md:text-base mx-4">
+                  {`$${i.estimatedWeeklyRate}.00`}
+                </p>
+              </div>
+            </div>
+          )
+        )
+      }
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .containerr {
+    background-color: rgba(20, 89, 58, 0.75);
+    height: 100vh;
+    width: 100%;
+    color: #f9f9f9;
+  }
+
+  .instrument-list {
+    margin: 3rem 6rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+</style>
