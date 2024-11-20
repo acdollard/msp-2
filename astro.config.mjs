@@ -6,6 +6,8 @@ import vue from "@astrojs/vue";
 
 import tailwind from "@astrojs/tailwind";
 
+import netlify from "@astrojs/netlify";
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [sanityIntegration({
@@ -15,5 +17,7 @@ export default defineConfig({
     apiVersion: "2024-07-24", // insert the current date to access the latest version of the API
     studioBasePath: "/studio", // If you want to access the Studio on a route
   }), react(), vue(), tailwind()],
+
   output: "server",
+  adapter: netlify(),
 });
